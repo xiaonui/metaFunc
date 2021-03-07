@@ -1,0 +1,28 @@
+Package: metaFunc
+Type: Package
+Title: An R package for comprehensive visualization of functional annotations by combining taxonomy
+Version: 0.1.0
+Author: person("Xiaorui", "Dong", email = "xiaonui8@163.com", role = c("aut", "cre"))
+Maintainer: Xiaorui Dong <xiaonui8@163.com>
+Description: metaFunc is an R package for visualizing function annotation and involved 
+    taxonomic classification. It introduce a complex combination chart composed of bar plot 
+    and icicle plot to display the results. Furthermore, users can use icicle plot and sankey 
+    diagram to layered view complex hierarchies of metagenomic classifications. metaFunc 
+    supports both function call and a user-friendly graphical interface to meet different needs.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+Depends: 
+    R (>= 4.0.0)
+Imports:
+    ggplot2 (>= 3.3.2),
+    networkD3,
+    shiny,
+    DT,
+    tools,
+    ggrepel
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
