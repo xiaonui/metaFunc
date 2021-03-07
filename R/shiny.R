@@ -5,10 +5,10 @@
 #'
 #' The function \code{blockShiny} starts the browser to start anlysis.
 #'
-#' @usage blockShiny()
+#' @usage blockShiny(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T)
 #'
-#' @param shiny.maxRequestSize max upload size of file
-#' @param launch.browser open in browser
+#' @param shiny.maxRequestSize The maximum size of the uploaded file.
+#' @param launch.browser If `TRUE`, launch browser.
 #'
 #' @examples
 #' library (metaFunc)

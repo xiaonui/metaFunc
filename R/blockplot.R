@@ -72,15 +72,18 @@ plot_block_stat <- function(func_data,
 #' show_func_topn = 20, rownames_size = 10, tax_name_size = 3,
 #' legend_label_size = 10, avoid_label_overlap = T)
 #'
-#' @param func_data functional annotation data
-#' @param tax_data tax annotation data
-#' @param func_split split
-#' @param show_func_topn show top n of functioanl term
-#' @param split_percentage split percentage
-#' @param rownames_size the size of rownames
-#' @param tax_name_size the size of tax name
-#' @param legend_label_size the size of legend size
-#' @param avoid_label_overlap avoid label overlapping
+#' @param func_data A data frame contains functional annotation.
+#' The first column is the gene name, and the second column is the functional annotation.
+#' @param tax_data A data frame contains taxonomic classification.
+#' It needs to contain at least three columns. The first column is the gene,
+#' and the rest are the taxonomic classification.
+#' @param func_split Separator for multiple functions.
+#' @param show_func_topn Show top n of functioanl functions.
+#' @param split_percentage Split percentage.
+#' @param rownames_size The size of rownames.
+#' @param tax_name_size The size of taxa.
+#' @param legend_label_size The size of legend labels.
+#' @param avoid_label_overlap If `TRUE`, the text labels repel away from each other.
 #'
 #' @examples
 #' library (metaFunc)

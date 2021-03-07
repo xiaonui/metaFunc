@@ -110,7 +110,7 @@ plot_block <- function(stat_res,
     g <- g +  ggrepel::geom_text_repel(
       data = tax_struc_data,
       aes(x = (x_start + x_end)/2, y = y, label = paste0(tax,"(",value,")")),
-      color = "black", fontface = "bold", size = tax_name_size, point.size = NA)
+      color = "black", fontface = "bold", size = tax_name_size, point.size = NA, max.overlaps = 100)
   } else {
     g <- g + geom_text(
       data = tax_struc_data,
