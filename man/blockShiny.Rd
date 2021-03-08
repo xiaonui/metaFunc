@@ -4,12 +4,12 @@
 \alias{blockShiny}
 \title{blockShiny}
 \usage{
-blockShiny()
+blockShiny(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T)
 }
 \arguments{
-\item{shiny.maxRequestSize}{max upload size of file}
+\item{shiny.maxRequestSize}{The maximum size of the uploaded file.}
 
-\item{launch.browser}{open in browser}
+\item{launch.browser}{If `TRUE`, launch browser.}
 }
 \description{
 The function \code{blockShiny} starts the browser to start anlysis.

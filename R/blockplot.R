@@ -66,7 +66,11 @@ plot_block_stat <- function(func_data,
 
 #'blockPlot
 #'
-#' The function \code{blockPlot} starts the browser to start anlysis.
+#' The function \code{blockPlot} plots a combination Block Chart. The icicle plot in the upper is
+#' used to display taxonomic classification and each row is a taxonomic rank. The number in parentheses
+#' represents the number of genes. The bar charts in the lower exhibit function annotations and each row
+#' is a function. The length represents the number of genes, and the color represents the taxon which
+#' corresponds to the figure above.
 #'
 #' @usage blockPlot(func_data, tax_data, func_split = ";", split_percentage = 10,
 #' show_func_topn = 20, rownames_size = 10, tax_name_size = 3,

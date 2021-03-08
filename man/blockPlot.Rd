@@ -9,26 +9,33 @@ show_func_topn = 20, rownames_size = 10, tax_name_size = 3,
 legend_label_size = 10, avoid_label_overlap = T)
 }
 \arguments{
-\item{func_data}{functional annotation data}
+\item{func_data}{A data frame contains functional annotation.
+The first column is the gene name, and the second column is the functional annotation.}
 
-\item{tax_data}{tax annotation data}
+\item{tax_data}{A data frame contains taxonomic classification.
+It needs to contain at least three columns. The first column is the gene,
+and the rest are the taxonomic classification.}
 
-\item{func_split}{split}
+\item{func_split}{Separator for multiple functions.}
 
-\item{show_func_topn}{show top n of functioanl term}
+\item{show_func_topn}{Show top n of functioanl functions.}
 
-\item{split_percentage}{split percentage}
+\item{split_percentage}{Split percentage.}
 
-\item{rownames_size}{the size of rownames}
+\item{rownames_size}{The size of rownames.}
 
-\item{tax_name_size}{the size of tax name}
+\item{tax_name_size}{The size of taxa.}
 
-\item{legend_label_size}{the size of legend size}
+\item{legend_label_size}{The size of legend labels.}
 
-\item{avoid_label_overlap}{avoid label overlapping}
+\item{avoid_label_overlap}{If `TRUE`, the text labels repel away from each other.}
 }
 \description{
-The function \code{blockPlot} starts the browser to start anlysis.
+The function \code{blockPlot} plots a combination Block Chart. The icicle plot in the upper is
+used to display taxonomic classification and each row is a taxonomic rank. The number in parentheses
+represents the number of genes. The bar charts in the lower exhibit function annotations and each row
+is a function. The length represents the number of genes, and the color represents the taxon which
+corresponds to the figure above.
 }
 \examples{
 library (metaFunc)

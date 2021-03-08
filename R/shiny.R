@@ -80,7 +80,7 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
           fluidRow(
             column(width = 5,
                    h5("Please select the function for the next step."),
-                   h6(" You can select the functions by clicking on the rows and using the 'SHIFT' for multiple selection"), br(),
+                   h6(" You can select the functions by clicking on the rows and using the 'SHIFT' for multiple selections."), br(),
                    DT::dataTableOutput("bar_datatable")),
             column(width = 1),
             column(width = 5,
@@ -217,8 +217,10 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
           }
 
           if(v1$check){
+            hideTab(inputId = "tabs", target = "Upload Data")
             showTab(inputId = "tabs", target = "Overview")
             showTab(inputId = "tabs", target = "Block Chart")
+            showTab(inputId = "tabs", target = "Upload Data")
           }
         })
 

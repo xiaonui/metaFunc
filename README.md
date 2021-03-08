@@ -3,7 +3,7 @@
 An R package for comprehensive visualization of functional annotations by combining taxonomy
 
 ### Introduction
-metaFunc is mainly used to display and interpret the functional annotation of metagenomic data. It will sort out the taxonomic profiling of all functional genes to get the community structure. Then, for each function, the corresponding genes will be grouped according to the taxonomic classification. Finally, the community structure and functions will be combined and showed in a complex combination block chart. The combination of them provides a full view that helps researchers gain actionable insights. metaFunc provides two usage modes: visual interface and function call. The high interactivity allows a quick examination of complex data. The user-friendly interface allows users to manipulate the data and customize plot charts.
+&emsp;&emsp;metaFunc is mainly used to display and interpret the functional annotation of metagenomic data. It will sort out the taxonomic profiling of all functional genes to get the community structure. Then, for each function, the corresponding genes will be grouped according to the taxonomic classification. Finally, the community structure and functions will be combined and showed in a complex combination block chart. The combination of them provides a full view that helps researchers gain actionable insights. metaFunc provides two usage modes: visual interface and function call. The high interactivity allows a quick examination of complex data. The user-friendly interface allows users to manipulate the data and customize plot charts.
 
 ### Quick Start
 
@@ -62,7 +62,7 @@ blockPlot(func_data = simple_demo$func, tax_data = simple_demo$tax)
 
 
 #### Combination Block Chart
-&emsp;&emsp;For the functions selected in the table, the data of the corresponding genes and their taxonomic classification will be extracted. The page will load with a complex combination block chart. You can change the "Tax Split Percentage" to adjust the taxonomic block. Except using brush and double-click to zoom, you can also click the center part of the function block in the figure, and the detailed information will be displayed below. The more taxonomic classification will be shown in a sankey plot.
+&emsp;&emsp;For the functions selected in the table, the data of the corresponding genes and their taxonomic classification will be extracted. The page will load with a complex combination block chart. You can change the "Tax Split Percentage" to adjust the taxonomic block. Besides using brush and double-click to zoom, you can also click the center part of the function block in the figure, and the detailed information will be displayed below. The more taxonomic classification will be shown in a sankey plot.
 
 <center>
 <figure>
