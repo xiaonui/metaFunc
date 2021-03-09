@@ -32,7 +32,7 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
     options(shiny.maxRequestSize = shiny.maxRequestSize)
     shinyApp(
       ui <- navbarPage(
-        "metaFuncBlock",
+        "metaFunc",
         id = "tabs",
         tabPanel(
           "Upload Data",
@@ -226,12 +226,12 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
 
         output$func_upload_datatable <- DT::renderDataTable({
           req(v1$func_data)
-          if(v1$check)  v1$func_data
+          if(v1$check)  DT::datatable(v1$func_data, extensions = "FixedHeader", options= list(fixedHeader = TRUE), selection = "none")
         })
 
         output$tax_upload_datatable <- DT::renderDataTable({
           req(v1$tax_data)
-          if(v1$check) v1$tax_data
+          if(v1$check) DT::datatable(v1$tax_data, extensions = "FixedHeader", options= list(fixedHeader = TRUE), selection = "none")
         })
 
         ## ----------------  Tab 2 : Overview
@@ -366,7 +366,7 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
 
         output$func_selected_datatable <- DT::renderDataTable({
           req(func_selected())
-          func_selected()
+          DT::datatable(func_selected(), extensions = "FixedHeader", options= list(fixedHeader = TRUE), selection = "none")
         })
 
 

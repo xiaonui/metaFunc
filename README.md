@@ -5,14 +5,20 @@ An R package for comprehensive visualization of functional annotations by combin
 ### Introduction
 &emsp;&emsp;metaFunc is mainly used to display and interpret the functional annotation of metagenomic data. It will sort out the taxonomic profiling of all functional genes to get the community structure. Then, for each function, the corresponding genes will be grouped according to the taxonomic classification. Finally, the community structure and functions will be combined and showed in a complex combination block chart. The combination of them provides a full view that helps researchers gain actionable insights. metaFunc provides two usage modes: visual interface and function call. The high interactivity allows a quick examination of complex data. The user-friendly interface allows users to manipulate the data and customize plot charts.
 
+<center>
+<figure>
+<img src="https://github.com/xiaonui/demo/raw/main/demo.gif">
+</center>
+</figure>
+
 ### Quick Start
 
 ```
 # Install metaFunc
 if (!requireNamespace("devtools", quietly = TRUE))
   install.packages("devtools")
-library(devtools)
-install_github("xiaonui/metaFunc", build_vignettes = TRUE)
+
+devtools::install_github("xiaonui/metaFunc", build_vignettes = TRUE)
 
 # Load the library
 library(metaFunc)
