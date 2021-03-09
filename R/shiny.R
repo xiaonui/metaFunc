@@ -39,7 +39,7 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
           sidebarLayout(
             sidebarPanel(width = 4,
                          h3("Use sample data"),
-                         actionButton("file_demo", "Load Demo (Xiao L et al)"), hr(),
+                         actionButton("file_demo", "Load Demo (Xiao L et al.)"), hr(),
                          h3("Upload File"),
                          h5("The file accepts .txt and .csv formats. TXT files should be separated by tabs."),
                          br(),
