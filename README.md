@@ -58,7 +58,7 @@ blockPlot(func_data = simple_demo$func, tax_data = simple_demo$tax)
 #### Overview
 &emsp;&emsp;At first, you will be greeted with a data summary section: a bar plot showing the functions and the number of corresponding genes. If you double click in a brush on the plot, the chart will be zoomed to the brush bounds. And double-clicking again (outside brush) will reset the zoom.
 
-&emsp;&emsp;The data will be shown in the table below. You need to select the functions of interest. On the right part, your selection will be visualized. 
+&emsp;&emsp;The data will be shown in the table below. You need to select the functions of interest. The selected data will be displayed on the right. 
 
 <center>
 <figure>
