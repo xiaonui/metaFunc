@@ -76,7 +76,7 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
                       h6(paste0("## If you double click in a brush on the plot, the chart will be zoomed to the brush bounds.",
                                 " And double-clicking again (outside brush) will reset the zoom."))
             )),
-          h3("Fcuntion selection"),
+          h3("Function selection"),
           fluidRow(
             column(width = 5,
                    h5("Please select the function for the next step."),
