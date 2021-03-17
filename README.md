@@ -74,7 +74,7 @@ blockPlot(func_data = simple_demo$func, tax_data = simple_demo$tax)
 |39_GL0024070|Bacteria|Firmicutes|Negativicutes|Selenomonadales|Acidaminococcaceae|Acidaminococcus|Acidaminococcus intestini|
 |39_GL0126084|Bacteria|Firmicutes|Clostridia|Clostridiales|Lachnospiraceae|Unknown|Unknown|
 |39_GL0173546|Bacteria|Unknown|Unknown|Unknown|Unknown| Unknown|
-|...|....|...|...|...|...|...|...|
+|...|...|...|...|...|...|...|...|
 
 ### Run browser
 &emsp;&emsp;The user interface contains three tabs.
