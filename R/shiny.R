@@ -421,6 +421,8 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
         })
 
         output$ui_block_plot <- renderUI({
+          req(input$block_height)
+          req(input$block_width)
           plotOutput("block_plot", click = "plot_click", height = input$block_height, width = input$block_width,
                      dblclick = "block_dbclick", brush = brushOpts(id = "block_brush",resetOnNew = TRUE))
         })
