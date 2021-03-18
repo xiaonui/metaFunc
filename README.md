@@ -29,9 +29,6 @@ if (!requireNamespace("devtools", quietly = TRUE))
 library(devtools)
 install_github("xiaonui/metaFunc", build_vignettes = TRUE)
 
-# If the installation fails due to an Internet failure, 
-# you also can download the package first and then install it.
-devtools::install_local("metaFunc-master.zip")
 ```
 
 ### Quick Start
