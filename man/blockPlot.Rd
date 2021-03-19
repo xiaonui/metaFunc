@@ -14,7 +14,11 @@ The first column is the gene name, and the second column is the functional annot
 
 \item{tax_data}{A data frame contains taxonomic classification.
 It needs to contain at least three columns. The first column is the gene,
-and the rest are the taxonomic classification.}
+and the rest columns are the taxonomic classification.}
+
+\item{gene_data}{A data frame contains gene profile.
+The first column is the gene, and the rest columns are the gene profile
+(0 presents absence and positive number presents presence).}
 
 \item{func_split}{Separator for multiple functions.}
 
@@ -25,6 +29,12 @@ and the rest are the taxonomic classification.}
 \item{rownames_size}{The size of rownames.}
 
 \item{tax_name_size}{The size of taxa.}
+
+\item{sample_point_size}{The size of sample points.}
+
+\item{sample_point_alpha}{The alpha channel for transparency of sample points.}
+
+\item{block_alpha}{The alpha channel for transparency of blocks.}
 
 \item{legend_label_size}{The size of legend labels.}
 

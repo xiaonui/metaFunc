@@ -52,14 +52,19 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
                                   selectInput("func_split", "Separator for multiple functions:", c(";", "/", ","), ";"))),
                          h6(paste0("This file needs to contain at least three columns, the first column is the gene, and the rest are the taxonomic classification. "),
                             "Unknown taxonomic classification label \"Unknown\"."),
-                         fileInput("file_tax", "Please upload taxonomic profiling: ", accept = c(".csv", ".tsv", ".txt"))),
+                         fileInput("file_tax", "Please upload taxonomic annotation: ", accept = c(".csv", ".tsv", ".txt")),
+                         h6(paste0("A data frame contains gene profile.The first column is the gene, and the rest columns are the gene profile.",
+                                   " (0 presents absence and positive number presents presence).")),
+                         fileInput("file_gene", "Please upload gene profiling: ", accept = c(".csv", ".tsv", ".txt"))),
             mainPanel(width = 8,
                       h4("After the data is uploaded and checked, it will be displayed in the table below, and the result tabs will appear in the top menu."),
                       hr(),
                       h4("The functional annotation:"),
                       DT::dataTableOutput("func_upload_datatable"),
-                      h4("The taxonomic profiling:"),
-                      DT::dataTableOutput("tax_upload_datatable"))
+                      h4("The taxonomic annotation:"),
+                      DT::dataTableOutput("tax_upload_datatable"),
+                      h4("The gene profile:"),
+                      DT::dataTableOutput("gene_upload_datatable"))
           )),
         tabPanel(
           "Overview",
@@ -97,6 +102,9 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
                          numericInput("block_width", "Plot Width", min =10, value = 1000),
                          numericInput("rownames_size", "Row Names Size:", min = 1, max = 30, value = 13),
                          numericInput("tax_name_size", "Tax Name Size:", min = 1, max = 30, value = 4),
+                         numericInput("sample_point_size", "Sample Points Size:", min = 0, value = 2),
+                         sliderInput("sample_point_alpha", "Sample Points Alpha:", min = 0, max = 1, value =.7),
+                         sliderInput("block_alpha", "Block Alpha:", min = 0, max = 1, value =.1),
                          numericInput("legend_label_size", "Legend Label Size:", min = 1, max = 30, value = 11),
                          checkboxInput("block_label_repel", "Aviod Label Overlap:", TRUE),
                          downloadButton("down_block_plot", label = "Download Plot")),
@@ -133,7 +141,7 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
 
         ## ---------------  Tab 1 : Upload Data
 
-        v1 <- reactiveValues(func_data = NULL, tax_data = NULL, check = F)
+        v1 <- reactiveValues(func_data = NULL, tax_data = NULL, gene_data = NULL, check = F)
 
         func_upload_data <- reactive({
           req(input$file_func)
@@ -153,7 +161,18 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
           if(ext == "csv"){
             read.csv(input$file_tax$datapath, header = T)
           } else {
-            read.table(input$file_tax$datapath, header = T, sep = "\t")
+            read.table(input$file_tax$datapath, header = T, sep = "\t", stringsAsFactors = F)
+          }
+        })
+
+        gene_upload_data <- reactive({
+          req(input$file_gene)
+          ext <- tools::file_ext(input$file_tax$datapath)
+          validate(need(ext %in%  c("csv", "txt", "tsv"), "Invalid file; Please upload a .csv or a .txt file"))
+          if(ext == "csv"){
+            read.csv(input$file_tax$datapath, header = T)
+          } else {
+            read.table(input$file_tax$datapath, header = T, sep = "\t", stringsAsFactors = F)
           }
         })
 
@@ -167,6 +186,11 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
           v1$tax_data <- tax_upload_data()
         })
 
+        observeEvent(input$file_gene,{
+          req(gene_upload_data())
+          v1$gene_data <- gene_upload_data()
+        })
+
         observeEvent(input$file_demo,{
           withProgress(message = 'Calculation in progress',
                        detail = 'This may take a while...', value = 0, {
@@ -174,15 +198,18 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
                          data <-  data(simple_demo)
                          v1$func_data <- simple_demo$func
                          v1$tax_data <- simple_demo$tax
+                         v1$gene_data <- simple_demo$gene
                        })
         })
 
         observe({
           req(v1$func_data)
           req(v1$tax_data)
+          req(v1$gene_data)
           v1$check <- T
           func_data <- v1$func_data
           tax_data <- v1$tax_data
+          gene_data <- v1$gene_data
 
           if(ncol(func_data) != 2){
             v1$check <- F
@@ -196,6 +223,18 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
           } else if (ncol(tax_data) < 3){
             v1$check <- F
             showModal(modalDialog("The tax antation file should have more than two columns.", easyClose = TRUE, footer = NULL))
+          } else if(any(duplicated(gene_data[, 1]))){
+            v1$check <- F
+            showModal(modalDialog("The gene profile have duplicated genes.", easyClose = TRUE, footer = NULL))
+          } else if (ncol(gene_data) < 2) {
+            v1$check <- F
+            showModal(modalDialog("The gene profile should have at least two columns.", easyClose = TRUE, footer = NULL))
+          } else if(!all(apply(gene_data[, -1], 2, is.numeric))){
+            v1$check <- F
+            showModal(modalDialog("All columns except the first column in the `gene_data` should be numeric.", easyClose = TRUE, footer = NULL))
+          } else if(!all(func_data[[1]] %in% gene_data[[1]])){
+            v1$check <- F
+            showModal(modalDialog("There are genes in function anotation file but not in gene profile.", easyClose = TRUE, footer = NULL))
           } else {
             tax_level_data <- unique(tax_data[, -1])
             tax_all <- as.vector(unlist(apply(tax_level_data, 2, function(x){unique(setdiff(x, "Unknown"))})))
@@ -213,7 +252,6 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
               showModal(modalDialog("If a gene in a certain taxonomic rank is 'Unknown', the lower taxonomic rank should be 'Unkown' too.",
                                     easyClose = TRUE, footer = NULL))
             }
-
           }
 
           if(v1$check){
@@ -232,6 +270,11 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
         output$tax_upload_datatable <- DT::renderDataTable({
           req(v1$tax_data)
           if(v1$check) DT::datatable(v1$tax_data, extensions = "FixedHeader", options= list(fixedHeader = TRUE), selection = "none")
+        })
+
+        output$gene_upload_datatable <- DT::renderDataTable({
+          req(v1$gene_data)
+          if(v1$check) DT::datatable(v1$gene_data, extensions = "FixedHeader", options= list(fixedHeader = TRUE), selection = "none")
         })
 
         ## ----------------  Tab 2 : Overview
@@ -391,6 +434,13 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
           funcs <- func_selected()$Func
           gene_func_tax_data <- subset(gene_func_tax_data, Func %in% funcs)
 
+          gene_data <- v1$gene_data
+          colnames(gene_data)[1] <- "Gene"
+          gene_data <- subset(gene_data, Gene %in% gene_func_tax_data$Gene)
+          for (i in colnames(gene_data)[-1]){
+            gene_data[[i]] <- as.numeric(ifelse(gene_data[[i]] == 0, 0, 1))
+          }
+
           levels <- setdiff(colnames(gene_func_tax_data), c("Gene", "Func"))
 
           gene_n <- nrow(gene_func_tax_data)
@@ -398,7 +448,7 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
 
           tax_struc_data <- get_tax_struc(gene_func_tax_data[, c("Gene", levels)], 0, "root", gene_n_threshold)
           tax_struc_data$is_leaf <- with(tax_struc_data, tax %in% setdiff(tax, parent))
-          tax_struc_data$y <- match(tax_struc_data$level, rev(levels))
+          tax_struc_data$y <- match(tax_struc_data$level, rev(levels)[rev(levels) %in% unique(tax_struc_data$level)])
 
           tax_struc_data_colored <- subset(tax_struc_data, is_leaf == TRUE)
 
@@ -408,15 +458,15 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
             curr_func_data$genes <- lapply(curr_func_data$genes, function(x){intersect(x, curr_func_gene)})
             curr_func_data$func <- x
             curr_func_data$func_value <- unlist(lapply(curr_func_data$genes, length))
-            curr_func_data
+            sample_data <- do.call(rbind, lapply(curr_func_data$genes, function(x){colSums(subset(gene_data, Gene %in% x)[, -1])}))
+            cbind(curr_func_data, sample_data)
           }))
 
           funcs_p_data$y <- match(funcs_p_data$func, funcs) * (-1)
-          funcs_p_data$point_x <- with(funcs_p_data, x_start + func_value/2)
 
           list(funcs_p_data = funcs_p_data,
                tax_struc_data = tax_struc_data[, c("level", "tax", "value", "x_start", "x_end", "is_leaf", "y")],
-               levels = levels, funcs = funcs)
+               levels = levels, funcs = funcs, samples = colnames(gene_data)[-1])
 
         })
 
@@ -435,6 +485,9 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
                          p <-  plot_block(block_stat_res(),
                                           rownames_size = input$rownames_size,
                                           tax_name_size = input$tax_name_size,
+                                          sample_point_size = input$sample_point_size,
+                                          sample_point_alpha = input$sample_point_alpha,
+                                          block_alpha = input$block_alpha,
                                           legend_label_size = input$legend_label_size,
                                           avoid_label_overlap = input$block_label_repel) +
                            coord_cartesian(xlim = v3$range_x, ylim = v3$range_y, expand = FALSE)
@@ -467,22 +520,39 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
 
         #  ----------  Click for sankey plot
 
-        output$click_info <- renderPrint({
+        point_data <- reactive({
           req(block_stat_res())
           req(input$plot_click)
-          near_point_data <- nearPoints(block_stat_res()$funcs_p_data, input$plot_click, threshold = 10, maxpoints = 1)
-          cat(paste0("Current click : \n  Function : ", near_point_data[1, "func"], "   ", "taxonomy : ", near_point_data[1, "level"], "-", near_point_data[1, "tax"],
-                     "   ", "Gene Number : ", near_point_data[1, "func_value"]))
+          funcs_p_data <- block_stat_res()$funcs_p_data
+          samples <- block_stat_res()$samples
+          sample_data <- reshape2::melt(funcs_p_data[,setdiff(colnames(funcs_p_data),
+                                                              c("level", "tax", "parent", "value", "genes", "is_leaf", "func", "func_value"))],
+                                        id.vars = c("x_start", "x_end", "y"), variable.name = "sample")
+          sample_data$sample <- as.vector(sample_data$sample)
+          sample_data$point_x <- sample_data$x_start + sample_data$value
+          sample_data$point_y <- sample_data$y + match(sample_data$sample, rev(samples)) / (length(samples) + 1) * .8 -.4
+          near_point_data <- nearPoints(sample_data, input$plot_click, threshold = 10, maxpoints = 1)
+          curr_data <- subset(funcs_p_data, x_start == near_point_data$x_start & x_end == near_point_data$x_end & y == near_point_data$y)
+          list(curr_data = curr_data, sample_name = near_point_data$sample)
+        })
+
+        output$click_info <- renderPrint({
+          req(point_data())
+          curr_data <- point_data()$curr_data
+          curr_sample <- point_data()$sample_name
+          cat(paste0("Current click : \n  Function : ", curr_data[1, "func"], "   ", "taxonomy : ", curr_data[1, "level"], "-",
+                     curr_data[1, "tax"], "   ", "Sample:", curr_sample, "   ", "Gene Number : ", curr_data[1, curr_sample]))
         })
 
         click_data <- reactive({
-          req(block_stat_res())
-          req(input$plot_click)
+          req(point_data())
           req(gene_func_tax_data())
           data <- gene_func_tax_data()
-          near_point_data <- nearPoints(block_stat_res()$funcs_p_data, input$plot_click, threshold = 10, maxpoints = 1)
+          near_point_data <- point_data()$curr_data
+          curr_sample <- point_data()$sample_name
           if(nrow(near_point_data) == 0) return(NULL)
-          curr_genes <- unlist(near_point_data$genes)
+          curr_genes <- intersect(unlist(near_point_data$genes),
+                                    as.vector(v1$gene_data[v1$gene_data[[curr_sample]] != 0, 1]))
           curr_level <- near_point_data$level
           res <- data[data[[1]] %in% curr_genes,]
           res[, c(1, (which(colnames(res) == curr_level) : ncol(res)))]

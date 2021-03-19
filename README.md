@@ -23,7 +23,7 @@ lapply(packages, function(x) {
 		install.packages(x, dependencies = TRUE)
 	}})
 
-# Install metaFunc
+# Install metaFunc and build vignettes
 if (!requireNamespace("devtools", quietly = TRUE))
   install.packages("devtools")
 library(devtools)

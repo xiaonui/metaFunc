@@ -1,12 +1,4 @@
 
-#' check_tax_data
-#'
-#' Check tax data
-#'
-#' @noRd
-
-check_tax_data <- function(tax_level_data){
-  }
 
 
 
@@ -68,16 +60,26 @@ get_tax_struc <- function(curr_gene_tax_data, x_start, curr_parent, gene_n_thres
 plot_block <- function(stat_res,
                        rownames_size = 15,
                        tax_name_size = 5,
-                       legend_label_size = 15, avoid_label_overlap = F){
+                       sample_point_size = 1,
+                       sample_point_alpha = 1,
+                       block_alpha = .3,
+                       legend_label_size = 15,
+                       avoid_label_overlap = F){
 
-  funcs_p_data = stat_res$funcs_p_data
-  tax_struc_data = stat_res$tax_struc_data
-  tax_struc_data_colored =  subset(stat_res$tax_struc_data, is_leaf == TRUE)
-  levels = stat_res$levels
-  funcs = stat_res$funcs
+  funcs_p_data <- stat_res$funcs_p_data
+  tax_struc_data <- stat_res$tax_struc_data
+  tax_struc_data_colored <- subset(stat_res$tax_struc_data, is_leaf == TRUE)
+  levels <- stat_res$levels
+  funcs <- stat_res$funcs
+  samples <- stat_res$samples
 
-  g <-  ggplot(funcs_p_data) +
-    geom_point(aes(x = point_x, y = y), color = "white") +
+  sample_data <- reshape2::melt(funcs_p_data[,setdiff(colnames(funcs_p_data), c("level", "tax", "parent", "value", "genes", "is_leaf", "func", "func_value"))],
+                                id.vars = c("x_start", "x_end", "y"), variable.name = "sample")
+  sample_data$point_x <- sample_data$x_start + sample_data$value
+  sample_data$point_y <- sample_data$y + match(sample_data$sample, rev(samples)) / (length(samples) + 1) * .8 -.4
+
+  g <-  ggplot(sample_data) +
+    geom_point(aes(x = point_x, y = point_y), color = "white", size = sample_point_size) +
     geom_rect(data = tax_struc_data,
               aes(xmin = x_start, xmax = x_end, ymin = y - 0.5, ymax = y + 0.5),
               color = "black", fill = "gray90")+
@@ -85,9 +87,13 @@ plot_block <- function(stat_res,
               aes(xmin = x_start, xmax = x_end, ymin = y - 0.5, ymax = y + 0.5, fill = paste0(level, "_", tax)),
               color = "black") +
     geom_rect(data = funcs_p_data,
-              aes(xmin = x_start, xmax = x_start + func_value, ymin = y + 0.4, ymax = y - 0.4, fill = paste0(level, "_", tax))) +
-    geom_segment(data = funcs_p_data,
+              aes(xmin = x_start, xmax = x_start + func_value, ymin = y + 0.4, ymax = y - 0.4,
+                  fill = paste0(level, "_", tax)), alpha = block_alpha, color = "black") +
+    geom_segment(data = unique(funcs_p_data[, c("x_start", "y")]),
                  aes(x = x_start, xend = x_start, y = max(y) + 0.5, yend = min(y) - 0.5)) +
+    geom_point(aes(x = point_x, y = point_y, color = sample), size = sample_point_size, alpha = sample_point_alpha) +
+    geom_segment(aes(x = x_start, xend = point_x, y = point_y, yend = point_y, color = sample), alpha = sample_point_alpha) +
+   # geom_segment(aes(x = point_x, xend = point_x, y = y - 0.4, yend = y +.4, color = sample)) +
     scale_y_continuous(breaks = c(unique(funcs_p_data$y),  unique(tax_struc_data$y)),
                        labels = c(funcs[unique(funcs_p_data$y * (-1))], rev(levels)[unique(tax_struc_data$y)]),
                        expand = expansion(mult = .01)) +
