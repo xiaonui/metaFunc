@@ -17,19 +17,18 @@ An R package for comprehensive visualization of functional annotations by combin
 
 ```
 # Check or install packages
-packages <- c("DT", "ggplot2", "ggrepel", "networkD3", "shiny", "tools")
+packages <- c("DT", "ggplot2", "ggrepel", "networkD3", "shiny", "tools", "devtools")
 lapply(packages, function(x) {
 	if(!require(x, character.only = TRUE)) {
 		install.packages(x, dependencies = TRUE)
 	}})
-
-# Install metaFunc and build vignettes
-if (!requireNamespace("devtools", quietly = TRUE))
-  install.packages("devtools")
-library(devtools)
-install_github("xiaonui/metaFunc", build_vignettes = TRUE)
+```
 
 ```
+# Install metaFunc and build vignettes
+devtools::install_github("xiaonui/metaFunc", build_vignettes = TRUE)
+```
+
 
 ### Quick Start
 
