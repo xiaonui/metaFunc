@@ -60,7 +60,7 @@ plot_block_stat <- function(func_data,
 
   list(funcs_p_data = funcs_p_data,
        tax_struc_data = tax_struc_data[, c("level", "tax", "value", "x_start", "x_end", "is_leaf", "y")],
-       levels = levels, funcs = funcs, samples = colnames(gene_data)[-1])
+       levels = levels[levels %in% unique(tax_struc_data$level)], funcs = funcs, samples = colnames(gene_data)[-1])
 
 }
 

@@ -51,7 +51,8 @@ get_tax_struc <- function(curr_gene_tax_data, x_start, curr_parent, gene_n_thres
 #' Plot block chart
 #'
 #' @importFrom ggplot2 ggplot geom_point geom_rect geom_segment scale_y_continuous
-#' theme_bw labs scale_x_continuous theme expansion geom_text element_blank
+#' theme_bw labs scale_x_continuous theme expansion geom_text element_blank guides
+#' guide_colorbar guide_legend
 #' @importFrom ggrepel geom_text_repel
 #'
 #' @noRd
@@ -105,6 +106,7 @@ plot_block <- function(stat_res,
           panel.grid.minor.x = element_blank(),
           panel.grid.minor.y = element_blank(),
           panel.border = element_blank(),
+          legend.title = element_blank(),
           legend.text = element_text(face = "bold", size = legend_label_size),
           axis.ticks= element_blank(),
           axis.line = element_blank(),
@@ -123,6 +125,10 @@ plot_block <- function(stat_res,
       aes(x = (x_start + x_end)/2, y = y, label = paste0(tax,"(",value,")")),
       color = "black", fontface = "bold", size = tax_name_size)
   }
+  g <- g + guides(
+    color = guide_legend(order = 0),
+    fill = guide_legend(order = 1)
+  )
   g
 }
 

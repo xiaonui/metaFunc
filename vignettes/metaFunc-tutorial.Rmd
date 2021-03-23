@@ -29,12 +29,14 @@ lapply(packages, function(x) {
 		install.packages(x, dependencies = TRUE)
 	}})
 
+```
+
+```{r eval=FALSE}
 # Install metaFunc
 if (!requireNamespace("devtools", quietly = TRUE))
   install.packages("devtools")
 library(devtools)
 install_github("xiaonui/metaFunc", build_vignettes = TRUE)
-
 ```
 
 ## 3. Quick Start
@@ -48,11 +50,11 @@ blockShiny()
 
 # You can also call the function directly
 data(simple_demo)
-blockPlot(func_data = simple_demo$func, tax_data = simple_demo$tax)
+blockPlot(func_data = simple_demo$func, tax_data = simple_demo$tax, gene_data = simple_demo$gene)
 
 ```
 
-## 3. Input data format
+## 4. Input data format
 
 &emsp;&emsp;Before starting, you need to prepare two files: `functional annotation` and `taxonomic profiling`. 
 &emsp;&emsp;The `functional annotation` should contain just two columns, the first column is the gene name, and the second column is the functional annotation. There should be no duplication of genes. If a gene corresponds to multiple functions, use the separator to connect. The structure of the data is shown below:
@@ -67,10 +69,15 @@ head(simple_demo$tax)
 ```
 
 
-## 4. Run browser
+```{r}
+simple_demo$gene[30:40,]
+```
+
+
+## 5. Run browser
 &emsp;&emsp;The user interface contains three tabs.
 
-### 4.1 Upload Data
+### 5.1 Upload Data
 &emsp;&emsp;To begin the analysis, you need to upload your `functional annotation` and `taxonomic profiling` (comma-separated (.csv) or tab-separated (.txt) format). If you do not have datasets, you can use the demo data file by clicking on the "Load Demo (Xiao L et al.)" button. The demo is a part of the entire data for demonstration. It contains genes related to propionate metabolism in the non-redundant gene catalog. After the data is uploaded and checked, it will be displayed on the right, and the result tabs will automatically appear .
 
 <center>
@@ -79,7 +86,7 @@ head(simple_demo$tax)
 </center>
 </figure>
 
-### 4.2 Overview
+### 5.2 Overview
 &emsp;&emsp;At first, you will be greeted with a data summary section: a bar plot showing the functions and the number of corresponding genes. 
 
 <center>
@@ -108,7 +115,7 @@ If you double click in a brush on the plot, the chart will be zoomed to the brus
 </figure>
 
 
-### 4.3 Combination Block Chart
+### 5.3 Combination Block Chart
 &emsp;&emsp;For the functions selected in the table, the corresponding genes' data and their taxonomic classification will be extracted. The page will load with a complex combination block chart. You can change the "Tax Split Percentage" to adjust the taxonomic block.
 
 <center>

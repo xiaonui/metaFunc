@@ -42,7 +42,7 @@ blockShiny()
 
 # You can also call the function directly
 data(simple_demo)
-blockPlot(func_data = simple_demo$func, tax_data = simple_demo$tax)
+blockPlot(func_data = simple_demo$func, tax_data = simple_demo$tax, gene_data = simple_demo$gene)
 
 ```
 

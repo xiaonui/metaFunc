@@ -167,12 +167,12 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
 
         gene_upload_data <- reactive({
           req(input$file_gene)
-          ext <- tools::file_ext(input$file_tax$datapath)
+          ext <- tools::file_ext(input$file_gene$datapath)
           validate(need(ext %in%  c("csv", "txt", "tsv"), "Invalid file; Please upload a .csv or a .txt file"))
           if(ext == "csv"){
-            read.csv(input$file_tax$datapath, header = T)
+            read.csv(input$file_gene$datapath, header = T)
           } else {
-            read.table(input$file_tax$datapath, header = T, sep = "\t", stringsAsFactors = F)
+            read.table(input$file_gene$datapath, header = T, sep = "\t", stringsAsFactors = F)
           }
         })
 
@@ -466,13 +466,13 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
 
           list(funcs_p_data = funcs_p_data,
                tax_struc_data = tax_struc_data[, c("level", "tax", "value", "x_start", "x_end", "is_leaf", "y")],
-               levels = levels, funcs = funcs, samples = colnames(gene_data)[-1])
+               levels = levels[levels %in% unique(tax_struc_data$level)], funcs = funcs, samples = colnames(gene_data)[-1])
 
         })
 
         output$ui_block_plot <- renderUI({
-          req(input$block_height)
-          req(input$block_width)
+          validate(need(input$block_height > 100, "The height of the plot should be a positive integer > 100."))
+          validate(need(input$block_width > 100, "The width of the plot should be a positive integer > 100."))
           plotOutput("block_plot", click = "plot_click", height = input$block_height, width = input$block_width,
                      dblclick = "block_dbclick", brush = brushOpts(id = "block_brush",resetOnNew = TRUE))
         })
