@@ -147,16 +147,26 @@ Fig 5. Data selection
 <figure>
 <img src='vignettes/figure/Fig6.png' width='70%'>
 
-Fig 6. Combination block chart
+Fig 6. Combination block chart (split percentage = 10%)
 </center>
 </figure>
 
-You can change the "Tax Split Percentage" to adjust the taxonomic block.
+&emsp;&emsp;You can change the "Tax Split Percentage" to adjust the taxonomic block.
 
 <center>
 <figure>
-<img src='vignettes/figure/Fig7-1.png' width='15%'>
-<img src='vignettes/figure/Fig7-2.png' width='55%'>
+<img src='vignettes/figure/Fig7.png' width='70%'>
+
+Fig 6. Combination block chart (split percentage = 60%)
+</center>
+</figure>
+
+&emsp;&emsp;You can hide the lollipop chart by adjusting the transparency.
+
+<center>
+<figure>
+<img src='vignettes/figure/Fig8-1.png' width='15%'>
+<img src='vignettes/figure/Fig8-2.png' width='55%'>
 
 Fig 7. Combination block chart
 </center>
@@ -166,7 +176,7 @@ Fig 7. Combination block chart
  
 <center>
 <figure>
-<img src='vignettes/figure/Fig8.png' width='70%'>
+<img src='vignettes/figure/Fig9.png' width='70%'>
 
 Fig 8. Click the point
 </center>
@@ -176,7 +186,7 @@ Fig 8. Click the point
 
 <center>
 <figure>
-<img src='vignettes/figure/Fig9.png' width='70%'>
+<img src='vignettes/figure/Fig10.png' width='70%'>
 
 Fig 9. The detailed information of point
 </center>
@@ -186,7 +196,7 @@ Fig 9. The detailed information of point
 
 <center>
 <figure>
-<img src='vignettes/figure/Fig10.png' width='70%'>
+<img src='vignettes/figure/Fig11.png' width='70%'>
 
 Fig 10. The data of genes
 </center>
@@ -196,7 +206,7 @@ Fig 10. The data of genes
 
 <center>
 <figure>
-<img src='vignettes/figure/Fig11.png' width='70%'>
+<img src='vignettes/figure/Fig12.png' width='70%'>
 
 Fig 11. A sankey plot
 </center>
