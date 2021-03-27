@@ -119,7 +119,7 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
                                  sidebarLayout(
                                    sidebarPanel(
                                      width = 2,
-                                     selectInput("sankey_level_n", "Show More Rank:", 1:3, 3),
+                                     selectInput("sankey_level_n", "Show More Ranks:", 1:3, 3),
                                      numericInput("sankey_height", "Plot Height", min = 10, value = 500),
                                      numericInput("sankey_width", "Plot Width", min = 10, value = NA),
                                      numericInput("sankey_node_size", "Node Size", min = 1, value = 12),
