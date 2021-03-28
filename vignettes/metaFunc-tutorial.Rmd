@@ -81,7 +81,7 @@ simple_demo$func[21:30,]
 head(simple_demo$tax)
 ```
 
-&emsp;&emsp;The `gene profile` should contain at least two columns, the first column is the gene name, and the rest are gene profile. There should be no duplication of genes. `0` will be considered to be absence, and positive numbers means the gene is be present. The structure of the data is shown below:
+&emsp;&emsp;The `gene profile` should contain at least two columns, the first column is the gene name, and the rest are gene profile. There should be no duplication of genes. `0` will be considered to be absent, and positive numbers mean the gene is present. The structure of the data is shown below:
 ```{r}
 simple_demo$gene[30:40,]
 ```
@@ -162,7 +162,7 @@ Fig 6. Combination block chart (split percentage = 10%)
 <figure>
 <img src='figure/Fig7.png' width='100%'>
 
-Fig 6. Combination block chart (split percentage = 60%)
+Fig 7. Combination block chart (split percentage = 60%)
 </center>
 </figure>
 
@@ -173,7 +173,7 @@ Fig 6. Combination block chart (split percentage = 60%)
 <img src='figure/Fig8-1.png' width='25%'>
 <img src='figure/Fig8-2.png' width='65%'>
 
-Fig 7. Combination block chart
+Fig 8. Combination block chart
 </center>
 </figure>
 
@@ -183,7 +183,7 @@ Fig 7. Combination block chart
 <figure>
 <img src='figure/Fig9.png' width='100%'>
 
-Fig 8. Click the point
+Fig 9. Click the point
 </center>
 </figure>
 
@@ -193,7 +193,7 @@ Fig 8. Click the point
 <figure>
 <img src='figure/Fig10.png' width='100%'>
 
-Fig 9. The detailed information of point
+Fig 10. The detailed information of point
 </center>
 </figure>
 
@@ -203,7 +203,7 @@ Fig 9. The detailed information of point
 <figure>
 <img src='figure/Fig11.png' width='100%'>
 
-Fig 10. The data of genes
+Fig 11. The data of genes
 </center>
 </figure>
 
@@ -213,7 +213,7 @@ Fig 10. The data of genes
 <figure>
 <img src='figure/Fig12.png' width='100%'>
 
-Fig 11. A sankey plot
+Fig 12. A sankey plot
 </center>
 </figure>
 

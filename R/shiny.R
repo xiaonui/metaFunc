@@ -540,7 +540,7 @@ blockShiny <- function(shiny.maxRequestSize = 100 * 1024^2, launch.browser = T) 
           req(point_data())
           curr_data <- point_data()$curr_data
           curr_sample <- point_data()$sample_name
-          cat(paste0("Current click : \n  Function : ", curr_data[1, "func"], "   ", "taxonomy : ", curr_data[1, "level"], "-",
+          cat(paste0("Current click : \n  Function : ", curr_data[1, "func"], "   ", "Taxonomy : ", curr_data[1, "level"], "-",
                      curr_data[1, "tax"], "   ", "Sample:", curr_sample, "   ", "Gene Number : ", curr_data[1, curr_sample]))
         })
 
